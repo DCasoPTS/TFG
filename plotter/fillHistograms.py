@@ -16,9 +16,9 @@ from math import *
 
 #################################################################################
 
-def createHistogram(tree, key, variable, selection, ev_weight):
+def createHistogram(tree, key, variable, selection):
 
-    histo = ROOT.TH1F(key, '', 60, variable['range'][0], variable['range'][1])
+    histo = ROOT.TH1F(key, '', variable['binning'], variable['range'][0], variable['range'][1])
     histo.GetXaxis().SetTitle(variable['label'])
     histo.GetYaxis().SetTitle('Events')
 
@@ -28,7 +28,8 @@ def createHistogram(tree, key, variable, selection, ev_weight):
             continue
 
         value = eval(variable['name'])
-        w = eval(ev_weight)
+
+        w = eval('event.EventSplit_trainingWeight * event.specialMCWeigths * event.XSWeight * event.METFilter_MC * event.SFweight2l * event.PrefireWeight * event.Lepton_promptgenmatched[0] * event.Lepton_promptgenmatched[1]')
 
         histo.Fill(value, w)
 
@@ -80,10 +81,12 @@ if __name__ == '__main__':
     tree.Add(args.samples)
 
     for key, var in variables.iteritems():
+        for keycut, cut in cuts.iteritems():
+
         
-        h = createHistogram(tree, args.outputFile.split('__')[0] + '_' + key, var, cuts['SignalRegion'], cuts['EventWeight'])
-        file_output.cd()
-        h.Write()
+            h = createHistogram(tree, args.outputFile.split('__')[0] + '_' + key + '_' + keycut, var, cuts[keycut])
+            file_output.cd()
+            h.Write()
 
     file_output.Close()
 
