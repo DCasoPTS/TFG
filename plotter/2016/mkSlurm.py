@@ -4,7 +4,7 @@ from array import array
 import numpy as np
 import glob
 
-# python mkSlurm.py /gpfs/users/dcaso/CMSSW_11_1_0/src /gpfs/users/dcaso/TFG/plotter
+# python mkSlurm.py /gpfs/users/dcaso/CMSSW_11_1_0/src /gpfs/users/dcaso/TFG/plotter/2016/
 
 templateSlurm = """#!/bin/bash
 cd CMSSWRELEASE

@@ -1,22 +1,33 @@
 import ROOT
 import argparse
 
-
-# diego
-# python plotHistograms.py --inputFile output.root --outputDir plots
+# python plotHistograms.py --inputFile histos/hadd.root --outputDir plots --norm norm1
 
 #################################################################################
 
-def tuneHistogram(histo, color):
-
-    histo.SetFillColorAlpha(color, 0.3)
-    histo.SetLineColor(color)
-    histo.GetXaxis().SetLabelSize(0.03)
-    histo.GetYaxis().SetLabelSize(0.03)
-    histo.GetXaxis().SetTitleSize(0.037)
-    histo.GetYaxis().SetTitleSize(0.037)
-    histo.GetXaxis().SetTitleOffset(1.27)
-    histo.GetYaxis().SetTitleOffset(1.4)
+def tuneHistogram(histo, color, var, isSignal):
+    
+    if isSignal:
+#        histo.SetFillColorAlpha(color, 0.3)
+        histo.SetLineColor(color)
+        histo.SetLineWidth(3)
+        histo.GetXaxis().SetLabelSize(0.03)
+        histo.GetYaxis().SetLabelSize(0.03)
+        histo.GetXaxis().SetTitleSize(0.037)
+        histo.GetYaxis().SetTitleSize(0.037)
+        histo.GetXaxis().SetTitleOffset(1.27)
+        histo.GetYaxis().SetTitleOffset(1.4)
+        histo.GetXaxis().SetTitle(var)
+    else:
+        histo.SetFillColorAlpha(color, 0.8)
+        histo.SetLineColor(color)
+        histo.GetXaxis().SetLabelSize(0.03)
+        histo.GetYaxis().SetLabelSize(0.03)
+        histo.GetXaxis().SetTitleSize(0.037)
+        histo.GetYaxis().SetTitleSize(0.037)
+        histo.GetXaxis().SetTitleOffset(1.27)
+        histo.GetYaxis().SetTitleOffset(1.4)
+        histo.GetXaxis().SetTitle(var)
  
 
 #################################################################################
@@ -40,22 +51,27 @@ if __name__ == '__main__':
     file_input = ROOT.TFile(args.inputFile)
 
     samples = []
-    variables = []
+    myvars = []
+    cuts = []
 
-    ## List of samples and variables:
+    ## List of samples, variables and cuts:
     for key in file_input.GetListOfKeys():
     
         h = key.ReadObj()
         histo_name = str(h.GetName())
-        histo_name = histo_name.split('_', 1)
+        histo_name = histo_name.split('_', 2)
         if histo_name[0] not in samples: samples.append(histo_name[0])
-        if histo_name[1] not in variables: variables.append(histo_name[1]) 
+        if histo_name[1] not in myvars: myvars.append(histo_name[1]) 
+        if histo_name[2] not in cuts: cuts.append(histo_name[2]) 
 
 
     ########## Load the colors
     colors = {}
     exec(open('colors.py', 'r'))
 
+    ########## Load the variables
+    variables = {}
+    exec(open('variables.py', 'r'))
 
     ########## Plot the histograms
 
@@ -65,65 +81,75 @@ if __name__ == '__main__':
     ROOT.TGaxis.SetMaxDigits(4)
     prefix = '' # default
 
-    for var in variables:
+    for var in myvars:
+        for cut in cuts:
+            ## Y axis scale options
 
-        ## Y axis scale options
-
-        if (args.log): 
-            prefix = 'log_'
-            c1.SetLogy(1)
-        else:
-            prefix = 'lin_'
-            c1.SetLogy(0)
-
-
-        ## Legend construction
-
-        leg = ROOT.TLegend(0.54, 0.89 - len(samples)*0.04, 0.89, 0.89)
-        leg.SetTextSize(0.03)
-        leg.SetBorderSize(0)
+            if (args.log): 
+                prefix = 'log_'
+                c1.SetLogy(1)
+            else:
+                prefix = 'lin_'
+                c1.SetLogy(0)
 
 
-        ## Overlap representation implementation
+            ## Legend construction
 
-        c = 0
+            leg = ROOT.TLegend(0.54, 0.89 - len(samples)*0.04, 0.89, 0.89)
+            leg.SetTextSize(0.03)
+            leg.SetBorderSize(0)
 
-        for sam in samples:
+            c = 0
+            ## Overlap representation implementation
             
-            #h = file_input.Get(sam + '_' + var)
-            h = eval('file_input.' + sam + '_' + var)
-            tuneHistogram(h, colors[sam])
+            stack = ROOT.THStack()
 
-            if (args.norm == 'norm1'):
-                h.Scale(1/h.Integral())
+            for sam in samples:
+                if not 'Signal' in sam:
+                    h = file_input.Get(sam + '_' + var + '_' + cut)
+                    tuneHistogram(h, colors[sam], variables[var]['label'], 0)
+                    stack.Add(h)
+
+                    if (args.norm == 'norm1'):
+                        h.Scale(0.33333333/h.Integral())
+
+                    if (args.log): 
+                        h.SetMaximum(10.*h.GetMaximum())
+                    else: h.SetMaximum(1.2*h.GetMaximum())
+
+                    leg.AddEntry(h, sam, 'f')
+
+                    
+            stack.Draw('hist')
+
+            for sam in samples:
+                
+                if 'Signal' in sam:
+                    h = file_input.Get(sam + '_' + var + '_' + cut)
+                    tuneHistogram(h, colors[sam],  variables[var]['label'], 1)
+
+                    if (args.norm == 'norm1'):
+                        h.Scale(1/h.Integral())
+
+                    if (args.log): 
+                        h.SetMaximum(10.*h.GetMaximum())
+                    else: h.SetMaximum(1.2*h.GetMaximum())
+
+                    h.Draw('hist same')
+                    h.Draw('axis same')
+
+                    leg.AddEntry(h, sam, 'f')
 
 
-            if (args.log): h.SetMaximum(10.*h.GetMaximum())
-            else: h.SetMaximum(1.2*h.GetMaximum())
-
-            if c == 0: 
-                h.Draw('hist')
-            else: 
-                h.Draw('hist same')
-                h.Draw('axis same')
-
-            leg.AddEntry(h, sam, 'f')
+            ## Draw the legend:
+            leg.Draw()
 
 
+            ## Save the plots
 
-            c+=1
+            c1.SaveAs(str(args.outputDir) + "/" + prefix + str(var) + '_' + str(cut) + '.png')
+            c1.SaveAs(str(args.outputDir )+ "/" + prefix + str(var) + '_' + str(cut) + '.pdf')
 
-
-        ## Draw the legend:
-
-        leg.Draw()
-
-
-        ## Save the plots
-
-        c1.SaveAs(str(args.outputDir) + "/" + prefix + str(var) + '.png')
-        c1.SaveAs(str(args.outputDir )+ "/" + prefix + str(var) + '.pdf')
-
-        c1.Clear()
+            c1.Clear()
 
 

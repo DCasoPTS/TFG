@@ -29,7 +29,8 @@ def createHistogram(tree, key, variable, selection):
 
         value = eval(variable['name'])
 
-        w = eval('event.EventSplit_trainingWeight * event.specialMCWeigths * event.XSWeight * event.METFilter_MC * event.SFweight2l * event.PrefireWeight * event.Lepton_promptgenmatched[0] * event.Lepton_promptgenmatched[1]')
+#        w = eval('event.EventSplit_trainingWeight * event.specialMCWeigths * event.XSWeight * event.METFilter_MC * event.SFweight2l * event.PrefireWeight * event.Lepton_promptgenmatched[0] * event.Lepton_promptgenmatched[1]')
+        w = eval('event.specialMCWeigths * event.XSWeight * event.METFilter_MC * event.SFweight2l * event.PrefireWeight * event.Lepton_promptgenmatched[0] * event.Lepton_promptgenmatched[1]')
 
         histo.Fill(value, w)
 
@@ -83,8 +84,10 @@ if __name__ == '__main__':
     for key, var in variables.iteritems():
         for keycut, cut in cuts.iteritems():
 
-        
-            h = createHistogram(tree, args.outputFile.split('__')[0] + '_' + key + '_' + keycut, var, cuts[keycut])
+            if '2HDMa' in args.outputFile:
+                h = createHistogram(tree, 'Signal' + args.outputFile.split('_')[10] + '_' + key + '_' + keycut, var, cuts[keycut])
+            else:
+                h = createHistogram(tree, args.outputFile.split('_')[0] + '_' + key + '_' + keycut, var, cuts[keycut])
             file_output.cd()
             h.Write()
 
