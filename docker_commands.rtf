@@ -1,0 +1,84 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 HelveticaNeue;\f2\fnil\fcharset0 HelveticaNeue-Medium;
+\f3\fswiss\fcharset0 Helvetica-Bold;\f4\fnil\fcharset0 Menlo-Regular;\f5\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red189\green200\blue207;\red24\green33\blue38;\red0\green0\blue0;
+}
+{\*\expandedcolortbl;;\cssrgb\c78824\c82353\c84706;\cssrgb\c12549\c17255\c20000;\csgray\c0;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid2\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid102\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11900\viewh8400\viewkind0
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0\fs24 \cf0 {\listtext	\uc0\u8226 	}
+\f1\fs30 \cf2 \cb3 \expnd0\expndtw0\kerning0
+Clone the repository by running Git in a container.\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls1\ilvl1
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8259 	}docker run --name repo alpine/git clone https://github.com/docker/getting-started.git\
+{\listtext	\uc0\u8259 	}docker cp repo:/git/getting-started/ .\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\uc0\u8226 	}
+\f2\fs36 \cf2 \cb3 \expnd0\expndtw0\kerning0
+A Docker image is a private file system just for your container. It provides all the files and code your container needs.
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}cd getting-started \
+{\listtext	\uc0\u8259 	}docker build -t docker101tutorial .\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\uc0\u8226 	}
+\f2\fs36 \cf2 \cb3 \expnd0\expndtw0\kerning0
+Start a container based on the image you built in the previous step. Running a container launches your application with private resources, securely isolated from the rest of your machine.
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}docker run -d -p 80:80 --name docker-tutorial docker101tutorial\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\uc0\u8226 	}
+\f1\fs36 \cf2 \cb3 \expnd0\expndtw0\kerning0
+Save and share your image on Docker Hub to enable other users to easily download and run the image on any destination machine.
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls1\ilvl1\cf0 {\listtext	\uc0\u8259 	}docker tag docker101tutorial diegocaso/docker101tutorial\
+{\listtext	\uc0\u8259 	}
+\f3\b d
+\f0\b0 ocker push diegocaso/docker101tutorial\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0\cf0 {\listtext	\uc0\u8226 	}Create new ubuntu container:\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls2\ilvl1
+\f4\fs22 \cf4 {\listtext	
+\f5 \uc0\u8259 
+\f4 	}\CocoaLigature0 docker run -it --name ubuntu ubuntu:xenial bash\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\fs24 \cf0 \CocoaLigature1 {\listtext	\uc0\u8226 	}Open a created container:\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}
+\f4\fs22 \cf4 \CocoaLigature0 docker run -t -i ubuntu\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\fs24 \cf0 \CocoaLigature1 {\listtext	\uc0\u8226 	}Watch the current containers created:\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}
+\f4\fs22 \cf4 \CocoaLigature0 docker ps -a \
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0
+\f0\fs24 \cf0 \CocoaLigature1 {\listtext	\uc0\u8226 	}Remove a container:\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls2\ilvl1\cf0 {\listtext	\uc0\u8259 	}
+\f4\fs22 \cf4 \CocoaLigature0 docker rm -f ubuntu\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0\CocoaLigature1 {\listtext	\uc0\u8226 	}Run container created:\
+\pard\tx940\tx1440\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls2\ilvl1{\listtext	
+\f5 \uc0\u8259 
+\f4 	}\CocoaLigature0 docker start -ai pensive_edison 
+\f0\fs24 \cf0 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+}
